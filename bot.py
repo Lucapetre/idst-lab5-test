@@ -1,8 +1,18 @@
+# Copyright 2024 Mirea Luca
+"""
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>. 
+"""
+
 import discord      # base discord module
 import code         # code.interact
 import os           # environment variables
 import inspect      # call stack inspection
 import random       # dumb random number generator
+import argparse
 # Hello from signed land
 from discord.ext import commands    # Bot class and utils
  
@@ -74,9 +84,7 @@ async def on_message(msg):
     # manually call the bot's command processor on given message
     await bot.process_commands(msg)
 
-@bot.event
-async def on_voice_state_update(member, before, after):
-    if not member.bot and bot.user.voice.channel != None and bot.user.
+
  
 # roll - rng chat command
 #   @ctx     : command invocation context
@@ -147,10 +155,15 @@ async def list(ctx):
 ################################################################################
  
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--token", help="Specify bot token from command line")
+    args = parser.parse_args()
     # check that token exists in environment
-    if 'BOT_TOKEN' not in os.environ:
+    if args.token != None:
+        bot.run(args.token)
+    elif 'BOT_TOKEN' in os.environ:
+        bot.run(os.environ['BOT_TOKEN'])
+    else:
         log_msg('save your token in the BOT_TOKEN env variable!', 'error')
         exit(-1)
- 
-    # launch bot (blocking operation)
-    bot.run(os.environ['BOT_TOKEN'])
+     
