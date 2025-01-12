@@ -3,7 +3,7 @@ import code         # code.interact
 import os           # environment variables
 import inspect      # call stack inspection
 import random       # dumb random number generator
- 
+# Hello from signed land
 from discord.ext import commands    # Bot class and utils
  
 ################################################################################
